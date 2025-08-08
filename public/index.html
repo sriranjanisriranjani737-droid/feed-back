@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Class Feedback App</title>
+</head>
+<body>
+  <h2>Feedback Form</h2>
+  <form id="feedbackForm">
+    <input type="text" id="name" placeholder="Your Name" required><br>
+    <textarea id="feedback" placeholder="Your Feedback" required></textarea><br>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="response"></div>
+  <script>
+    document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const feedback = document.getElementById("feedback").value;
+      const res = await fetch("/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, feedback })
+      });
+      const result = await res.json();
+      document.getElementById("response").textContent = result.message;
+    });
+  </script>
+</body>
+</html>
